@@ -1,36 +1,20 @@
 const cssMatcher = require('jest-matcher-css')
 const plugin = require('./index.js')
-const postcss = require('postcss')
-const tailwindcss = require('tailwindcss')
-
-function tailwindConfig(options) {
-  return {
-    theme: {},
-    corePlugins: false,
-    plugins: [plugin(options)]
-  }
-}
-
-const generatePluginCss = (options = {}) => {
-  return postcss(
-    tailwindcss(tailwindConfig())
-  )
-  .process('@tailwind utilities;', {
-    from: undefined
-  })
-  .then(result => result.css)
-}
+const { generateUtilities } = require('tailwindcss-plugin-test-helpers')
 
 expect.extend({
-  toMatchCss: cssMatcher
+  toMatchCss: cssMatcher,
 })
 
 test('it generates the default classes', () => {
-  generatePluginCss().then(css => {
-    expect(css).toMatchCss(`
-      .test {
-        display: block
-      }
-    `)
+  const output = `
+    .test {
+      display: block
+    }
+  `
+
+  generateUtilities(plugin).then(result => {
+    expect(result.css).toMatchCss(output)
+    expect(result.warnings().length).toBe(0)
   })
 })
