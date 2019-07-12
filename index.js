@@ -1,7 +1,10 @@
-module.exports = (variants) => ({ addComponents, addUtilities, config, e, theme }) => {
-  addUtilities({
-    ['.test']: {
-      display: 'block'
-    }
-  }, variants)
+module.exports = variants => ({ addUtilities }) => {
+  addUtilities(
+    {
+      ['.test']: {
+        display: 'block',
+      },
+    },
+    variants
+  )
 }
