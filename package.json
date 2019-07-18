@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "style": "eslint .",
-    "test": "jest && eslint ."
+    "test": "npm run style && jest"
   },
   "keywords": [
     "tailwindcss-plugin"
